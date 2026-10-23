@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist -r https://github.com/maximpetrushin/fe-vacancy.git"
+    "deploy": "npm run build && gh-pages -d dist -r https://github.com/maximpetrushin/fe-vacancy-router.git"
   },
   "dependencies": {
     "@mantine/core": "^9.7.3",
