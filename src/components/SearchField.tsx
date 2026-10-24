@@ -3,9 +3,12 @@ import {useAppDispatch} from "../store/hooks.ts";
 import {useState} from "react";
 import {setSearch} from "../store/vacancySlice.ts";
 import {MagnifyingGlassIcon} from '@phosphor-icons/react'
+import useVacancyQueryParams from "../hooks/useVacancyQueryParams.ts";
 
 
 function SearchField() {
+
+    const updateQueryParam = useVacancyQueryParams()
 
     const [fieldState, setFieldState] = useState<string>('');
 
@@ -22,6 +25,7 @@ function SearchField() {
                     onSubmit={(e) => {
                         e.preventDefault();
                         dispatch(setSearch(fieldState));
+                        updateQueryParam('search', fieldState);
                         setFieldState('');
                     }}>
                     <Group>

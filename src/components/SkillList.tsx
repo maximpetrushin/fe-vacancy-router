@@ -3,7 +3,7 @@ import {useAppSelector, useAppDispatch} from "../store/hooks.ts";
 import {setSkill, removeSkill} from "../store/vacancySlice.ts";
 import {useState, type SyntheticEvent} from "react";
 import {PlusIcon} from "@phosphor-icons/react";
-
+import useVacancyQueryParams from "../hooks/useVacancyQueryParams.ts";
 
 
 
@@ -11,6 +11,8 @@ import {PlusIcon} from "@phosphor-icons/react";
 function SkillList() {
 
     const [skillItem, setSkillItem] = useState('')
+
+    const updateQueryParam = useVacancyQueryParams()
 
     const skills = useAppSelector(state => state.vacancy.filters.skills);
     const dispatch = useAppDispatch();
@@ -26,6 +28,7 @@ function SkillList() {
         }
 
         dispatch(setSkill(newSkill));
+        updateQueryParam('skills', [...skills, newSkill].join(','))
         setSkillItem('')
     }
 
@@ -59,7 +62,11 @@ function SkillList() {
                 <Flex wrap='wrap' gap={4}>
                     {skills.length > 0 &&
                         skills.map((skill) =>
-                            (<Pill key={skill} bg='background.0' withRemoveButton onRemove={() => dispatch(removeSkill(skill))}>{skill}</Pill>))}
+                            (<Pill key={skill} bg='background.0' withRemoveButton onRemove={() => {
+                                const updatedSkills = skills.filter(item => item !== skill)
+                                dispatch(removeSkill(skill))
+                                updateQueryParam('skills', updatedSkills.join(','))
+                            }}>{skill}</Pill>))}
 
                 </Flex>
             </Stack>

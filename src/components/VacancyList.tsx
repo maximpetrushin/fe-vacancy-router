@@ -1,5 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
 import {setPage} from "../store/vacancySlice.ts";
+import {Link} from 'react-router'
 import {Card, Group, Loader, Stack, Title, Text, Badge, Button, Flex, Container, Pagination} from "@mantine/core";
 
 
@@ -79,7 +80,13 @@ function VacancyList() {
                                 {spaceConfig[item.space].label}</Badge>
                             <Text>{item.city}</Text>
                         </Stack>
-                        <Button color='black' w={180} radius='sm'>Смотреть вакансию</Button>
+                        <Button
+                            component={Link}
+                            to={`/vacancies/${item.id}`}
+                            color='black'
+                            w={180}
+                            radius='sm'
+                        >Смотреть вакансию</Button>
                     </Stack>
                 </Card>
                 )}
