@@ -1,4 +1,4 @@
-import { useAppDispatch } from "../store/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../store/hooks.ts";
 import {setCity}  from '../store/vacancySlice.ts'
 import {Paper, Select} from "@mantine/core";
 import {MapPinIcon} from '@phosphor-icons/react'
@@ -7,7 +7,7 @@ import useVacancyQueryParams from "../hooks/useVacancyQueryParams.ts";
 function CityList() {
 
     const updateQueryParam = useVacancyQueryParams()
-
+    const city = useAppSelector(state => state.vacancy.filters.city)
     const dispatch = useAppDispatch();
 
     return (
@@ -15,7 +15,7 @@ function CityList() {
             <Select
                 leftSection={<MapPinIcon/>}
                 opacity='0.5'
-                defaultValue={'all'}
+                value={city || 'all'}
                 data={[
                     {value: 'all', label: 'Все города'},
                     {value: 'Москва', label: 'Москва'},

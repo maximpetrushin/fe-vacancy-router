@@ -125,7 +125,7 @@ export const fetchVacancyById = createAsyncThunk<FullJobResponse, string, {rejec
     }
     )
 
-const initialState: VacancyState = {
+export const initialState: VacancyState = {
     vacancies: [],
     pagination: {
         currentPage: 1,
