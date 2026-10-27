@@ -23,6 +23,8 @@ function Vacancies () {
         const urlFilters = getFiltersFromUrl(searchParams);
 
         dispatch(setFilters(urlFilters));
+        dispatch(fetchVacancy(urlFilters));
+
         const params = new URLSearchParams();
 
 
