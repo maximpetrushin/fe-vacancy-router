@@ -86,7 +86,7 @@ function buildQueryParam (params: FetchVacancyParams): string {
 export const fetchVacancy =
     createAsyncThunk<VacancyResponse, FetchVacancyParams, {rejectValue: string}>('vacancy/fetchVacancy',
         async function (params, {rejectWithValue}) {
-
+            console.log('Запрос вакансий с фильтрами:', params);
         const url = `https://kata-jobs.onrender.com/api/jobs${buildQueryParam(params)}`
 
         try {
@@ -125,6 +125,29 @@ export const fetchVacancyById = createAsyncThunk<FullJobResponse, string, {rejec
     }
     )
 
+const defaultFilters: VacancyState['filters'] = {
+    skills: ['JavaScript', 'React', 'Redux', 'Python'],
+    search: '',
+    city: '',
+    page: 1,
+}
+
+export function getFiltersFromUrl(params: URLSearchParams): VacancyState['filters'] {
+    const skills = params.get('skills');
+    const search = params.get('search');
+    const city = params.get('city');
+    const page = params.get('page');
+
+    return {
+        skills: skills !== null ? skills.split(',').filter(Boolean) : [...defaultFilters.skills],
+        search: search !== null ? search : defaultFilters.search,
+        city: city !== null ? city : defaultFilters.city,
+        page: page !== null
+            ? Math.max(1, Number(page) || 1)
+            : defaultFilters.page,
+    }
+}
+
 export const initialState: VacancyState = {
     vacancies: [],
     pagination: {
@@ -136,12 +159,7 @@ export const initialState: VacancyState = {
         hasPrevPage: false,
     },
     currentVacancy: null,
-    filters: {
-        skills: ['JavaScript', 'React', 'Redux', 'Python'],
-        search: '',
-        city: '',
-        page: 1,
-    },
+    filters: defaultFilters,
     status: 'idle',
     detailStatus: 'idle',
     error: null,
@@ -172,6 +190,18 @@ export const vacancySlice = createSlice({
             state.filters.page = action.payload;
         },
         setFilters: (state, action: PayloadAction<VacancyState['filters']>) => {
+
+            const current = state.filters;
+            const next = action.payload;
+
+            if (
+                current.search === next.search &&
+                current.city === next.city &&
+                current.page === next.page &&
+                current.skills.length === next.skills.length &&
+                current.skills.every(skill => next.skills.includes(skill))
+            ) {return}
+
             state.filters = action.payload;
         }
     },

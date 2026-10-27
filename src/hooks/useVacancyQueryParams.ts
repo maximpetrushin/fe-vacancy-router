@@ -6,7 +6,7 @@ function useVacancyQueryParams() {
     const updateQueryParam = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams);
 
-        if (value) {
+        if (value || key === 'skills') {
             params.set(key, value);
         } else {
             params.delete(key);
