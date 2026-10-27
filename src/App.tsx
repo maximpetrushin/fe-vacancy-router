@@ -32,7 +32,7 @@ function getFiltersFromUrl(
 }
 
 function App() {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [initialParams] = useState(
         () => new URLSearchParams(searchParams),
@@ -43,13 +43,19 @@ function App() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if (!initialParams.has("skills")) {
+            const params = new URLSearchParams(initialParams);
+            params.set("skills", initialState.filters.skills.join(","));
+            setSearchParams(params, { replace: true });
+        }
+
         dispatch(
             setFilters(
                 getFiltersFromUrl(initialParams, initialState.filters),
             ),
         );
         setIsInitialized(true);
-    }, [dispatch, initialParams]);
+    }, [dispatch, initialParams, setSearchParams]);
 
 
     useEffect(() => {
