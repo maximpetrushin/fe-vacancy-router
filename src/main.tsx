@@ -74,7 +74,7 @@ const theme = createTheme({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <BrowserRouter basename={'/fe-vacancy-router'}>
+      <BrowserRouter>
           <Provider store={store}>
               <MantineProvider theme={theme}>
                   <App />
