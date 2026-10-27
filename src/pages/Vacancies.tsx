@@ -9,10 +9,6 @@ import { useSearchParams } from "react-router";
 import { fetchVacancy, getFiltersFromUrl, setFilters } from "../store/vacancySlice.ts";
 
 
-
-
-
-
 function Vacancies () {
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -27,7 +23,6 @@ function Vacancies () {
         const urlFilters = getFiltersFromUrl(searchParams);
 
         dispatch(setFilters(urlFilters));
-        dispatch(fetchVacancy(urlFilters));
         const params = new URLSearchParams();
 
 
