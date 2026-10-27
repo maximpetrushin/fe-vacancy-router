@@ -2,4 +2,4 @@
 
 Студент Петрушин Максим
 
-https://maximpetrushin.github.io/fe-vacancy-router/vacancies
+https://fe-vacancy-router.vercel.app/vacancies
